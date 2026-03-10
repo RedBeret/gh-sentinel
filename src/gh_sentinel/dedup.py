@@ -7,6 +7,7 @@ are only sent once per event. Stored at ~/.gh-sentinel/events.db.
 
 from __future__ import annotations
 
+import os
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
@@ -19,12 +20,20 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def _default_db_path() -> Path:
+    """Return the default DB path, respecting GH_SENTINEL_DB env var."""
+    env = os.environ.get("GH_SENTINEL_DB")
+    if env:
+        return Path(env)
+    return Path.home() / ".gh-sentinel" / "events.db"
+
+
 class EventStore:
     """Persistent SQLite store for deduplication."""
 
     def __init__(self, db_path: Optional[Path] = None):
         if db_path is None:
-            db_path = Path.home() / ".gh-sentinel" / "events.db"
+            db_path = _default_db_path()
         self.db_path = db_path
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._conn = sqlite3.connect(str(self.db_path))

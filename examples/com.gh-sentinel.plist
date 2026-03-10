@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.gh-sentinel</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- Full path from: which gh-sentinel -->
+        <string>/Users/youruser/.local/bin/gh-sentinel</string>
+        <string>watch</string>
+        <string>--config</string>
+        <string>/Users/youruser/.config/gh-sentinel/config.yaml</string>
+    </array>
+
+    <!-- Restart automatically if it exits -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- Log output to files in ~/Library/Logs/ -->
+    <key>StandardOutPath</key>
+    <string>/Users/youruser/Library/Logs/gh-sentinel.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/youruser/Library/Logs/gh-sentinel.err</string>
+
+    <!-- Run at login -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Wait 10s before restarting after a failure -->
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+</dict>
+</plist>

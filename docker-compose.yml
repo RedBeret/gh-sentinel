@@ -1,0 +1,18 @@
+services:
+  gh-sentinel:
+    build: .
+    restart: unless-stopped
+    command: watch --config /config/config.yaml
+    volumes:
+      # Mount your config file (required)
+      - ./config.yaml:/config/config.yaml:ro
+      # Persist the event dedup store across restarts
+      - gh-sentinel-data:/data
+      # Mount gh CLI auth so the container can call the API
+      # On Linux: ~/.config/gh -> /root/.config/gh
+      - ${HOME}/.config/gh:/root/.config/gh:ro
+    environment:
+      - GH_SENTINEL_DB=/data/events.db
+
+volumes:
+  gh-sentinel-data:

@@ -1,0 +1,29 @@
+[Unit]
+Description=GitHub Activity Monitor
+Documentation=https://github.com/RedBeret/gh-sentinel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Change 'youruser' to the user running gh-sentinel
+User=youruser
+Group=youruser
+
+# Path to your config file
+Environment="GH_SENTINEL_CONFIG=/home/youruser/.config/gh-sentinel/config.yaml"
+
+# Use the full path from: which gh-sentinel
+ExecStart=/home/youruser/.local/bin/gh-sentinel watch --config /home/youruser/.config/gh-sentinel/config.yaml
+
+# Restart on failure with a 30s cooldown
+Restart=on-failure
+RestartSec=30
+
+# Logging goes to journald — view with: journalctl -u gh-sentinel -f
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=gh-sentinel
+
+[Install]
+WantedBy=multi-user.target
