@@ -1,0 +1,40 @@
+# gh-sentinel config example
+# Copy to config.yaml and fill in your details.
+# Run: gh-sentinel check --config config.yaml
+
+repos:
+  - "RedBeret/sqlite-vault"
+  - "RedBeret/signal-agent"
+  - "RedBeret/cron-lite"
+
+# How often to poll (seconds) — used by `gh-sentinel watch`
+check_interval: 300
+
+# Which event types to monitor
+check:
+  issues: true
+  pull_requests: true
+  ci_status: true
+  dependabot: true
+
+# Alert channels — configure at least one
+alerts:
+  # Signal via signal-cli daemon
+  # Start daemon: signal-cli -a +1XXXXXXXXXX daemon --http 127.0.0.1:19756
+  signal:
+    account: "+1XXXXXXXXXX"   # Your Signal number (sending)
+    recipient: "+1YYYYYYYYYY" # Alert destination number
+
+  # Slack Incoming Webhook
+  # Create at: https://api.slack.com/messaging/webhooks
+  # slack:
+  #   webhook_url: "https://hooks.slack.com/services/T.../B.../..."
+
+  # Email via SMTP
+  # email:
+  #   smtp_host: "smtp.gmail.com"
+  #   smtp_port: 587
+  #   username: "you@gmail.com"
+  #   password: "your-app-password"
+  #   from_addr: "you@gmail.com"
+  #   to_addr: "alerts@example.com"
